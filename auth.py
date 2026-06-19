@@ -10,12 +10,17 @@ def google_login():
     token_endpoint = "https://oauth2.googleapis.com/token"
     userinfo_endpoint = "https://openidconnect.googleapis.com/v1/userinfo"
 
+    # If no token yet
     if "token" not in st.session_state:
         oauth = OAuth2Session(client_id, client_secret, redirect_uri=redirect_uri,
                               scope="openid email profile")
-        authorization_url, state = oauth.create_authorization_url(authorization_endpoint)
-        return authorization_url, None
+
+        if st.button("🔑 Login with Google"):
+            authorization_url, state = oauth.create_authorization_url(authorization_endpoint)
+            st.experimental_set_query_params(oauth=authorization_url)
+            st.markdown(f'<meta http-equiv="refresh" content="0; url={authorization_url}">', unsafe_allow_html=True)
+        return None
     else:
         oauth = OAuth2Session(client_id, client_secret, token=st.session_state["token"])
         userinfo = oauth.get(userinfo_endpoint).json()
-        return None, userinfo
+        return userinfo
