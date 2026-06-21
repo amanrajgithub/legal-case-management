@@ -3,6 +3,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import altair as alt
+import plotly.express as px
 
 def show_dashboard(user_email):
     st.title("Legal Case Management System")
@@ -36,6 +37,18 @@ def show_dashboard(user_email):
         )
     
         st.altair_chart(chart, use_container_width=True)
+
+    #Case Head
+    if not df.empty and "Case Type/Case Head" in df.columns and "Concerned NYKS Division" in df.columns:
+        fig = px.bar(
+            df,
+            x="Case Type/Case Head",
+            color="Concerned NYKS Division",
+            title="Cases by Case Head (Stacked by NYKS Division)",
+            barmode="stack"
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
 
 
     # Add new case form
