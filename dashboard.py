@@ -26,16 +26,16 @@ def show_dashboard(user_email):
 
     # 📊 Column chart: Status vs State
     if not df.empty and "Status" in df.columns and "State" in df.columns:
-    chart = alt.Chart(df).mark_bar().encode(
-        x=alt.X("Status:N", title="Case Status"),
-        y=alt.Y("count()", title="Number of Cases"),
-        color=alt.Color("State:N", legend=alt.Legend(title="State")),
-        tooltip=["Status", "State", "count()"]
-    ).properties(
-        title="Cases by Status (Stacked by State)"
-    )
-
-    st.altair_chart(chart, use_container_width=True)
+        chart = alt.Chart(df).mark_bar().encode(
+            x=alt.X("Status:N", title="Case Status"),
+            y=alt.Y("count()", title="Number of Cases"),
+            color=alt.Color("State:N", legend=alt.Legend(title="State")),
+            tooltip=["Status", "State", "count()"]
+        ).properties(
+            title="Cases by Status (Stacked by State)"
+        )
+    
+        st.altair_chart(chart, use_container_width=True)
 
 
     # Add new case form
