@@ -4,7 +4,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import altair as alt
 import plotly.express as px
-from summary import show_summary
 
 def show_dashboard(user_email):
     st.title("Legal Case Management System")
