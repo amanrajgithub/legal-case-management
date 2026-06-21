@@ -67,9 +67,38 @@ def show_dashboard(user_email):
     # Show existing records
     data = sheet.get_all_records()
     df = pd.DataFrame(data)
-    st.dataframe(df)
+    st.markdown("### 🔎 Master Filters")
 
-    show_summary(df)
+    # Create filter widgets
+    state_filter = st.multiselect("Filter by State", options=df["State"].unique())
+    court_filter = st.multiselect("Filter by Court", options=df["Court"].unique())
+    status_filter = st.multiselect("Filter by Status", options=df["Status"].unique())
+    division_filter = st.multiselect("Filter by NYKS Division", options=df["Concerned NYKS Division"].unique())
+    
+    # Clear filters button
+    if st.button("Clear Filters"):
+        state_filter = []
+        court_filter = []
+        status_filter = []
+        division_filter = []
+    
+    # Apply filters
+    filtered_df = df.copy()
+    if state_filter:
+        filtered_df = filtered_df[filtered_df["State"].isin(state_filter)]
+    if court_filter:
+        filtered_df = filtered_df[filtered_df["Court"].isin(court_filter)]
+    if status_filter:
+        filtered_df = filtered_df[filtered_df["Status"].isin(status_filter)]
+    if division_filter:
+        filtered_df = filtered_df[filtered_df["Concerned NYKS Division"].isin(division_filter)]
+    
+    # Show filtered data
+    st.dataframe(filtered_df)
+    
+    # ✅ Pass filtered_df to summary + charts
+    show_summary(filtered_df)
+    show_dashboard(filtered_df)
 
     # 📊 Column chart: Status vs State
     if not df.empty and "Status" in df.columns and "State" in df.columns:
