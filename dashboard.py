@@ -88,6 +88,26 @@ def show_dashboard(user_email):
     
         st.plotly_chart(fig, use_container_width=True)
 
+    #Date wise case filing
+    if not df.empty and "Case filing date" in df.columns and "Court" in df.columns:
+        # Convert dates to datetime for proper plotting
+        df["Case filing date"] = pd.to_datetime(df["Case filing date"], errors="coerce")
+    
+        # Group by date + court to count cases
+        grouped = df.groupby([df["Case filing date"].dt.to_period("M"), "Court"]).size().reset_index(name="Count")
+        grouped["Case filing date"] = grouped["Case filing date"].astype(str)  # convert Period back to string
+    
+        fig = px.line(
+            grouped,
+            x="Case filing date",
+            y="Count",
+            color="Court",
+            markers=True,
+            title="Cases by Dates (Court-wise)"
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+
     # Add new case form
     with st.form("new_case"):
         case_id = st.text_input("count")
