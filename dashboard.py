@@ -107,6 +107,24 @@ def show_dashboard(user_email):
         )
         st.plotly_chart(fig, use_container_width=True)
 
+    #MAP
+    if not df.empty and "Lat" in df.columns and "Long" in df.columns:
+        df["Lat"] = pd.to_numeric(df["Lat"], errors="coerce")
+        df["Long"] = pd.to_numeric(df["Long"], errors="coerce")
+    
+        fig = px.scatter_mapbox(
+            df,
+            lat="Lat",
+            lon="Long",
+            hover_name="Case Number",
+            hover_data=["Court Name", "Status"],
+            color="Status",
+            zoom=4,
+            height=500
+        )
+    
+        fig.update_layout(mapbox_style="open-street-map")
+        st.plotly_chart(fig, use_container_width=True)
 
     # Add new case form
     with st.form("new_case"):
