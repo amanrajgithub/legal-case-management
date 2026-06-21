@@ -53,6 +53,25 @@ def show_dashboard(user_email):
         )
         st.plotly_chart(fig, use_container_width=True)
 
+    #
+    if not df.empty and "Concerned NYKS Division" in df.columns:
+        division_counts = df["Concerned NYKS Division"].value_counts().reset_index()
+        division_counts.columns = ["Concerned NYKS Division", "Count"]
+    
+        fig = px.pie(
+            division_counts,
+            names="Concerned NYKS Division",
+            values="Count",
+            title="Cases by Concerned NYKS Division",
+            hole=0,  # set >0 for donut chart
+        )
+    
+        # Show labels + percentages
+        fig.update_traces(textinfo="label+percent")
+    
+        st.plotly_chart(fig, use_container_width=True)
+
+
     # Add new case form
     with st.form("new_case"):
         case_id = st.text_input("count")
