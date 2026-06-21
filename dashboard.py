@@ -98,7 +98,6 @@ def show_dashboard(user_email):
     
     # ✅ Pass filtered_df to summary + charts
     show_summary(filtered_df)
-    show_dashboard(filtered_df)
 
     # 📊 Column chart: Status vs State
     if not df.empty and "Status" in df.columns and "State" in df.columns:
