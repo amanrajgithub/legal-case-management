@@ -25,6 +25,8 @@ def show_dashboard(user_email):
     df = pd.DataFrame(data)
     st.dataframe(df)
 
+    show_summary(df)
+
     # 📊 Column chart: Status vs State
     if not df.empty and "Status" in df.columns and "State" in df.columns:
         chart = alt.Chart(df).mark_bar().encode(
