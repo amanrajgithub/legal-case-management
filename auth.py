@@ -15,7 +15,7 @@ def google_login():
         oauth = OAuth2Session(client_id, client_secret, redirect_uri=redirect_uri,
                               scope="openid email profile")
 
-        # Check if Google redirected back with a code
+        # Handle redirect back from Google
         if "code" in st.query_params:
             code = st.query_params["code"]
             token = oauth.fetch_token(token_endpoint, code=code)
