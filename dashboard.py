@@ -4,7 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import altair as alt
 import plotly.express as px
-from datetime import datetime, timedelta
+from summary import show_summary
 
 def show_dashboard(user_email):
     st.title("Legal Case Management System")
@@ -25,6 +25,8 @@ def show_dashboard(user_email):
     data = sheet.get_all_records()
     df = pd.DataFrame(data)
     st.dataframe(df)
+
+    show_summary(df)
 
     # 📊 Column chart: Status vs State
     if not df.empty and "Status" in df.columns and "State" in df.columns:
