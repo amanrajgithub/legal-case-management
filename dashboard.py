@@ -39,12 +39,12 @@ def show_dashboard(user_email):
         st.altair_chart(chart, use_container_width=True)
 
     #Case Head
-    if not df.empty and "Case Type/Case Head" in df.columns and "Concerned NYKS Division" in df.columns:
-        grouped = df.groupby(["Case Type/Case Head", "Concerned NYKS Division"]).size().reset_index(name="Count")
+    if not df.empty and "Case Head" in df.columns and "Concerned NYKS Division" in df.columns:
+        grouped = df.groupby(["Case Head", "Concerned NYKS Division"]).size().reset_index(name="Count")
     
         fig = px.bar(
             grouped,
-            x="Case Type/Case Head",
+            x="Case Head",
             y="Count",
             color="Concerned NYKS Division",
             title="Cases by Case Head (Stacked by NYKS Division)",
