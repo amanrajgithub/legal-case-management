@@ -2,6 +2,7 @@ import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
+import altair as alt
 
 def show_dashboard(user_email):
     st.title("Legal Case Management System")
@@ -22,6 +23,21 @@ def show_dashboard(user_email):
     data = sheet.get_all_records()
     df = pd.DataFrame(data)
     st.dataframe(df)
+
+
+    # 📊 Pie chart of case status
+    if not df.empty:
+        status_counts = df["status"].value_counts().reset_index()
+        status_counts.columns = ["status", "count"]
+
+        pie_chart = alt.Chart(status_counts).mark_arc().encode(
+            theta="count",
+            color="status",
+            tooltip=["status", "count"]
+        )
+
+        st.altair_chart(pie_chart, use_container_width=True)
+
 
     # Add new case form
     with st.form("new_case"):
