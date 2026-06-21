@@ -39,10 +39,10 @@ def show_dashboard(user_email):
         st.altair_chart(chart, use_container_width=True)
 
     #Case Head
-    if not df.empty and "Case Type/Case Head" in df.columns and "Concerned NYKS Division" in df.columns:
+    if not df.empty and "Case Head" in df.columns and "Concerned NYKS Division" in df.columns:
         fig = px.bar(
             df,
-            x="Case Type/Case Head",
+            x="Case Head",
             color="Concerned NYKS Division",
             title="Cases by Case Head (Stacked by NYKS Division)",
             barmode="stack"
