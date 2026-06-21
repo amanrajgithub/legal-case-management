@@ -81,7 +81,7 @@ def show_dashboard(user_email):
             names="LIMBS Update",
             values="Count",
             title="LIMBS Status",
-            hole=4,  # set >0 for donut chart
+            hole=0.7,  # set >0 for donut chart
         )
         # Show labels + percentages
         fig.update_traces(textinfo="label+percent")
