@@ -100,8 +100,8 @@ def show_dashboard(user_email):
     show_summary(filtered_df)
 
     # 📊 Column chart: Status vs State
-    if not df.empty and "Status" in df.columns and "State" in df.columns:
-        chart = alt.Chart(df).mark_bar().encode(
+    if not filtered_df.empty and "Status" in filtered_df.columns and "State" in filtered_df.columns:
+        chart = alt.Chart(filtered_df).mark_bar().encode(
             x=alt.X("Status:N", title="Case Status"),
             y=alt.Y("count()", title="Number of Cases"),
             color=alt.Color("State:N", legend=alt.Legend(title="State")),
@@ -113,8 +113,8 @@ def show_dashboard(user_email):
         st.altair_chart(chart, use_container_width=True)
 
     #Case Head
-    if not df.empty and "Case Head" in df.columns and "Concerned NYKS Division" in df.columns:
-        grouped = df.groupby(["Case Head", "Concerned NYKS Division"]).size().reset_index(name="Count")
+    if not filtered_df.empty and "Case Head" in filtered_df.columns and "Concerned NYKS Division" in filtered_df.columns:
+        grouped = filtered_df.groupby(["Case Head", "Concerned NYKS Division"]).size().reset_index(name="Count")
     
         fig = px.bar(
             grouped,
@@ -128,8 +128,8 @@ def show_dashboard(user_email):
         st.plotly_chart(fig, use_container_width=True)
 
     #
-    if not df.empty and "Concerned NYKS Division" in df.columns:
-        division_counts = df["Concerned NYKS Division"].value_counts().reset_index()
+    if not filtered_df.empty and "Concerned NYKS Division" in filtered_df.columns:
+        division_counts = filtered_df["Concerned NYKS Division"].value_counts().reset_index()
         division_counts.columns = ["Concerned NYKS Division", "Count"]
     
         fig = px.pie(
@@ -146,8 +146,8 @@ def show_dashboard(user_email):
         st.plotly_chart(fig, use_container_width=True)
 
     #LIMBS
-    if not df.empty and "LIMBS Update" in df.columns:
-        division_counts = df["LIMBS Update"].value_counts().reset_index()
+    if not filtered_df.empty and "LIMBS Update" in filtered_df.columns:
+        division_counts = filtered_df["LIMBS Update"].value_counts().reset_index()
         division_counts.columns = ["LIMBS Update", "Count"]
     
         fig = px.pie(
@@ -163,12 +163,12 @@ def show_dashboard(user_email):
         st.plotly_chart(fig, use_container_width=True)
 
     #Date wise case filing
-    if not df.empty and "Case filing date" in df.columns and "Court" in df.columns:
+    if not filtered_df.empty and "Case filing date" in filtered_df.columns and "Court" in filtered_df.columns:
         # Convert dates to datetime for proper plotting
-        df["Case filing date"] = pd.to_datetime(df["Case filing date"], errors="coerce")
+        filtered_df["Case filing date"] = pd.to_datetime(filtered_df["Case filing date"], errors="coerce")
     
         # Group by date + court to count cases
-        grouped = df.groupby([df["Case filing date"].dt.to_period("M"), "Court"]).size().reset_index(name="Count")
+        grouped = filtered_df.groupby([filtered_df["Case filing date"].dt.to_period("M"), "Court"]).size().reset_index(name="Count")
         grouped["Case filing date"] = grouped["Case filing date"].astype(str)  # convert Period back to string
     
         fig = px.line(
@@ -182,12 +182,12 @@ def show_dashboard(user_email):
         st.plotly_chart(fig, use_container_width=True)
 
     #MAP
-    if not df.empty and "Lat" in df.columns and "Long" in df.columns:
-        df["Lat"] = pd.to_numeric(df["Lat"], errors="coerce")
-        df["Long"] = pd.to_numeric(df["Long"], errors="coerce")
+    if not filtered_df.empty and "Lat" in filtered_df.columns and "Long" in filtered_df.columns:
+        filtered_df["Lat"] = pd.to_numeric(filtered_df["Lat"], errors="coerce")
+        filtered_df["Long"] = pd.to_numeric(filtered_df["Long"], errors="coerce")
     
         fig = px.scatter_mapbox(
-            df,
+            filtered_df,
             lat="Lat",
             lon="Long",
             hover_name="Case Number",
