@@ -24,19 +24,19 @@ def show_dashboard(user_email):
     df = pd.DataFrame(data)
     st.dataframe(df)
 
-
-    # 📊 Pie chart of case status
-    if not df.empty:
-        status_counts = df["status"].value_counts().reset_index()
-        status_counts.columns = ["status", "count"]
-
-        pie_chart = alt.Chart(status_counts).mark_arc().encode(
-            theta="count",
-            color="status",
-            tooltip=["status", "count"]
+    # 📊 Column chart: Status vs State
+    if not df.empty and "Status" in df.columns and "State" in df.columns:
+        chart = alt.Chart(df).mark_bar().encode(
+            x="Status:N",
+            y="count()",
+            color="State:N",
+            column="State:N",   # optional: group by state
+            tooltip=["Status", "State", "count()"]
+        ).properties(
+            title="Cases by Status and State"
         )
 
-        st.altair_chart(pie_chart, use_container_width=True)
+        st.altair_chart(chart, use_container_width=True)
 
 
     # Add new case form
