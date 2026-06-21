@@ -20,9 +20,11 @@ elif userinfo:
     user_email = userinfo["email"]
     if check_access(user_email):
         show_dashboard(user_email)
+        # Show logout in dashboard too
+        if st.button("🚪 Logout"):
+            logout()
     else:
-        st.error("Access denied. Please contact admin to be added to the AuthorizedUsers sheet.")
-
-    # Always show logout option
-    if st.button("🚪 Logout"):
-        logout()
+        st.error("❌ You are not an authorized user.")
+        st.warning("Please log out and try again with the correct account.")
+        if st.button("🚪 Logout"):
+            logout()
