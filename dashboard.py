@@ -71,6 +71,24 @@ def show_dashboard(user_email):
     
         st.plotly_chart(fig, use_container_width=True)
 
+    #LIMBS
+    if not df.empty and "LIMBS Update" in df.columns:
+        division_counts = df["LIMBS Update"].value_counts().reset_index()
+        division_counts.columns = ["LIMBS Update", "Count"]
+    
+        fig = px.pie(
+            division_counts,
+            names="LIMBS Update",
+            values="Count",
+            title="LIMBS Status",
+            hole=5,  # set >0 for donut chart
+        )
+    
+        # Show labels + percentages
+        fig.update_traces(textinfo="label+percent")
+    
+        st.plotly_chart(fig, use_container_width=True)
+
 
     # Add new case form
     with st.form("new_case"):
