@@ -40,9 +40,12 @@ def show_dashboard(user_email):
 
     #Case Head
     if not df.empty and "Case Type/Case Head" in df.columns and "Concerned NYKS Division" in df.columns:
+        grouped = df.groupby(["Case Type/Case Head", "Concerned NYKS Division"]).size().reset_index(name="Count")
+    
         fig = px.bar(
-            df,
+            grouped,
             x="Case Type/Case Head",
+            y="Count",
             color="Concerned NYKS Division",
             title="Cases by Case Head (Stacked by NYKS Division)",
             barmode="stack"
