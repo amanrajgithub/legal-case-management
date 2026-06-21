@@ -44,9 +44,10 @@ def show_dashboard(user_email):
     
         fig = px.bar(
             grouped,
-            x="Case Head",
-            y="Count",
+            y="Case Head",
+            x="Count",
             color="Concerned NYKS Division",
+            orientation="h",
             title="Cases by Case Head (Stacked by NYKS Division)",
             barmode="stack"
         )
