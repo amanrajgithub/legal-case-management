@@ -41,7 +41,7 @@ def show_dashboard(user_email):
 
     # Add new case form
     with st.form("new_case"):
-        case_id = st.text_input("Case ID")
+        case_id = st.text_input("Count")
         client_name = st.text_input("Client Name")
         status = st.selectbox("Status", ["Open", "Closed", "Pending"])
         submitted = st.form_submit_button("Add Case")
