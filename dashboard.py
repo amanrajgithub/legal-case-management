@@ -81,14 +81,12 @@ def show_dashboard(user_email):
             names="LIMBS Update",
             values="Count",
             title="LIMBS Status",
-            hole=5,  # set >0 for donut chart
+            hole=4,  # set >0 for donut chart
         )
-    
         # Show labels + percentages
         fig.update_traces(textinfo="label+percent")
     
         st.plotly_chart(fig, use_container_width=True)
-
 
     # Add new case form
     with st.form("new_case"):
