@@ -33,7 +33,7 @@ elif st.session_state.selected_tab == "Dashboard":
 
 elif st.session_state.selected_tab == "Case Register":
     # Pass your Google Sheets objects here
-    show_case_register(Sheet1, audit_sheet, "Demo User")
+    show_case_register(sheet, audit_sheet, "Demo User")
 
 elif st.session_state.selected_tab == "Profile":
     st.write("Profile section here")
