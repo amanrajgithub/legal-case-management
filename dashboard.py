@@ -235,7 +235,7 @@ def show_case_register(sheet, audit_sheet, user_email):
 
     # --- Table with action buttons ---
     for idx, row in df.iterrows():
-        st.write(f"**{row['Case Title']}** | {row['Case Number']} | {row['Court']} | {row['State']} | {row['Case Type']} | {row['Status']}")
+        st.write(f"**{row['Case Title']}** | {row['Case Number']} | {row['Court']} | {row['State']} | {row['Case Head']} | {row['Status']}")
 
         colA, colB, colC = st.columns([1,1,1])
         with colA:
@@ -252,7 +252,7 @@ def show_case_register(sheet, audit_sheet, user_email):
                         new_number = st.text_input("Case Number", row["Case Number"])
                         new_court = st.selectbox("Court", ["Supreme Court", "High Court", "District Court", "CAT"], index=0 if row["Court"] not in ["Supreme Court","High Court","District Court","CAT"] else ["Supreme Court","High Court","District Court","CAT"].index(row["Court"]))
                         new_state = st.selectbox("State", sorted(df["State"].unique()), index=list(sorted(df["State"].unique())).index(row["State"]))
-                        new_type = st.selectbox("Case Type", ["Promotion", "Appointment", "Disciplinary", "Other"], index=0 if row["Case Type"] not in ["Promotion","Appointment","Disciplinary","Other"] else ["Promotion","Appointment","Disciplinary","Other"].index(row["Case Type"]))
+                        new_type = st.selectbox("Case Head", ["Promotion", "Appointment", "Disciplinary", "Other"], index=0 if row["Case Type"] not in ["Promotion","Appointment","Disciplinary","Other"] else ["Promotion","Appointment","Disciplinary","Other"].index(row["Case Type"]))
                         new_status = st.selectbox("Status", ["Pending", "Disposed", "Reply filed", "Reply to be filed", "Hearing listed"], index=0 if row["Status"] not in ["Pending","Disposed","Reply filed","Reply to be filed","Hearing listed"] else ["Pending","Disposed","Reply filed","Reply to be filed","Hearing listed"].index(row["Status"]))
 
                         edit_submit = st.form_submit_button("✏️ Save Changes")
