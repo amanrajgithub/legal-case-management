@@ -256,7 +256,7 @@ def show_case_register(sheet, audit_sheet, user_email):
                         new_state = st.selectbox("State", sorted(df["State"].unique()),
                                                  index=list(sorted(df["State"].unique())).index(row["State"]))
                         new_type = st.selectbox("Case Head", ["Promotion", "Appointment", "Disciplinary", "Other"],
-                                                index=0 if row["Case Type"] not in ["Promotion","Appointment","Disciplinary","Other"]
+                                                index=0 if row["Case Head"] not in ["Promotion","Appointment","Disciplinary","Other"]
                                                 else ["Promotion","Appointment","Disciplinary","Other"].index(row["Case Type"]))
                         new_status = st.selectbox("Status", ["Pending", "Disposed", "Reply filed", "Reply to be filed", "Hearing listed"],
                                                   index=0 if row["Status"] not in ["Pending","Disposed","Reply filed","Reply to be filed","Hearing listed"]
