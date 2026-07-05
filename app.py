@@ -58,9 +58,6 @@ elif st.session_state.selected_tab == "Profile":
 
 st.set_page_config(page_title="Legal Case Management", layout="wide")
 st.title("Legal Case Management System")
-
-# Directly show dashboard without login
-show_dashboard("Demo User")
 if "selected_tab" not in st.session_state:
     st.session_state.selected_tab = "Homepage"
 
