@@ -17,7 +17,7 @@ client = gspread.authorize(creds)
 sheet = client.open("LegalCases").sheet1
 
 # Audit log sheet
-audit_sheet = client.open("LegalCases").audit_sheet
+audit_sheet = client.open("LegalCases").sheet1
 
 
 # Initialize navigation state
