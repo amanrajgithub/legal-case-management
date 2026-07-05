@@ -1,5 +1,7 @@
 import streamlit as st
 from dashboard import show_dashboard
+from dashboard import show_case_register
+
 
 # 👉 Navbar styling goes here, at the very top
 st.markdown("""
@@ -36,3 +38,7 @@ st.title("Legal Case Management System")
 
 # Directly show dashboard without login
 show_dashboard("Demo User")
+
+if selected_tab == "Case Register":
+    show_case_register(Sheet1, audit_sheet, user_email)
+
