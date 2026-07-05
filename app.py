@@ -3,6 +3,23 @@ from dashboard import show_dashboard, show_case_register
 
 st.set_page_config(page_title="Legal Case Management", layout="wide")
 
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
+# Connect to Google Sheets
+scope = ["https://spreadsheets.google.com/feeds",
+         "https://www.googleapis.com/auth/drive"]
+creds_dict = st.secrets["gcp_service_account"]
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+client = gspread.authorize(creds)
+
+# Main case register sheet
+sheet = client.open("LegalCases").sheet1
+
+# Audit log sheet
+audit_sheet = client.open("AuditLog").sheet1
+
+
 # Initialize navigation state
 if "selected_tab" not in st.session_state:
     st.session_state.selected_tab = "Homepage"
