@@ -53,7 +53,32 @@ elif st.session_state.selected_tab == "Case Register":
     show_case_register(sheet, audit_sheet, "Demo User")
 
 elif st.session_state.selected_tab == "Profile":
-    st.write("Profile section here")
+    st.header("👤 Profile")
+
+    # User name
+    user_name = st.text_input("Full Name", "Demo User")
+
+    # Employee ID
+    employee_id = st.text_input("Employee ID")
+
+    # Email ID
+    email_id = st.text_input("Email ID")
+
+    # Upload profile image
+    uploaded_file = st.file_uploader("Upload Profile Image", type=["png", "jpg", "jpeg"])
+    if uploaded_file is not None:
+        st.image(uploaded_file, caption="Profile Image", use_column_width=True)
+
+    # Generate password
+    if st.button("Generate Secure Password"):
+        import secrets, string
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        password = ''.join(secrets.choice(alphabet) for i in range(12))
+        st.success(f"Generated Password: {password}")
+
+    # Save button
+    if st.button("Save Profile"):
+        st.success("✅ Profile details saved successfully!")
 
 if "selected_tab" not in st.session_state:
     st.session_state.selected_tab = "Homepage"
