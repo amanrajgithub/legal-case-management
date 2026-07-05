@@ -64,6 +64,3 @@ show_dashboard("Demo User")
 if "selected_tab" not in st.session_state:
     st.session_state.selected_tab = "Homepage"
 
-if selected_tab == "Case Register":
-    show_case_register(Sheet1, audit_sheet, user_email)
-
