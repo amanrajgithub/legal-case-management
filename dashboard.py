@@ -210,3 +210,73 @@ def show_dashboard(user_email):
         if submitted:
             sheet.append_row([case_id, client_name, status])
             st.success("Case added successfully!")
+
+
+
+
+
+###########################
+def show_case_register(sheet, audit_sheet, user_email):
+    st.header("📑 Case Register")
+
+    # Load data fresh each time
+    def load_data():
+        return pd.DataFrame(sheet.get_all_records())
+
+    df = load_data()
+
+    # --- Summary Cards ---
+    col1, col2, col3 = st.columns(3)
+    with col1: st.metric("All Cases", len(df))
+    with col2: st.metric("Disposed", len(df[df["Status"].str.contains("Disposed", case=False)]))
+    with col3: st.metric("Pending", len(df[df["Status"].str.contains("Pending", case=False)]))
+
+    st.subheader("📋 Registered Cases")
+
+    # --- Table with action buttons ---
+    for idx, row in df.iterrows():
+        st.write(f"**{row['Case Title']}** | {row['Case Number']} | {row['Court']} | {row['State']} | {row['Case Type']} | {row['Status']}")
+
+        colA, colB, colC = st.columns([1,1,1])
+        with colA:
+            if st.button(f"🔍 Open {row['Case Number']}"):
+                with st.modal(f"Case Details - {row['Case Number']}"):
+                    # Show details row by row
+                    for col in df.columns:
+                        st.write(f"**{col}:** {row[col]}")
+
+                    st.markdown("---")
+                    # Edit form with predefined dropdowns
+                    with st.form(f"edit_form_{idx}"):
+                        new_title = st.text_input("Case Title", row["Case Title"])
+                        new_number = st.text_input("Case Number", row["Case Number"])
+                        new_court = st.selectbox("Court", ["Supreme Court", "High Court", "District Court", "CAT"], index=0 if row["Court"] not in ["Supreme Court","High Court","District Court","CAT"] else ["Supreme Court","High Court","District Court","CAT"].index(row["Court"]))
+                        new_state = st.selectbox("State", sorted(df["State"].unique()), index=list(sorted(df["State"].unique())).index(row["State"]))
+                        new_type = st.selectbox("Case Type", ["Promotion", "Appointment", "Disciplinary", "Other"], index=0 if row["Case Type"] not in ["Promotion","Appointment","Disciplinary","Other"] else ["Promotion","Appointment","Disciplinary","Other"].index(row["Case Type"]))
+                        new_status = st.selectbox("Status", ["Pending", "Disposed", "Reply filed", "Reply to be filed", "Hearing listed"], index=0 if row["Status"] not in ["Pending","Disposed","Reply filed","Reply to be filed","Hearing listed"] else ["Pending","Disposed","Reply filed","Reply to be filed","Hearing listed"].index(row["Status"]))
+
+                        edit_submit = st.form_submit_button("✏️ Save Changes")
+                        if edit_submit:
+                            # Validation
+                            if not new_number.strip():
+                                st.error("❌ Case Number cannot be empty.")
+                            elif new_number != row["Case Number"] and new_number in df["Case Number"].values:
+                                st.error("❌ Case Number already exists.")
+                            else:
+                                # Update row in sheet
+                                sheet.update(f"A{idx+2}:F{idx+2}", [[new_title, new_number, new_court, new_state, new_type, new_status]])
+                                # Audit log entry
+                                audit_sheet.append_row([datetime.now().strftime("%Y-%m-%d %H:%M:%S"), user_email, "EDIT", row["Case Number"], f"Updated to {new_number}"])
+                                st.success("✅ Case updated successfully!")
+                                st.experimental_rerun()
+
+                    # Delete button with confirmation
+                    if st.button(f"🗑️ Delete {row['Case Number']}"):
+                        confirm = st.checkbox("Confirm delete?")
+                        if confirm:
+                            sheet.delete_rows(idx+2)
+                            # Audit log entry
+                            audit_sheet.append_row([datetime.now().strftime("%Y-%m-%d %H:%M:%S"), user_email, "DELETE", row["Case Number"], "Case deleted"])
+                            st.warning("❌ Case deleted successfully!")
+                            st.experimental_rerun()
+
