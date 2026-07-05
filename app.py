@@ -61,6 +61,5 @@ st.title("Legal Case Management System")
 
 # Directly show dashboard without login
 show_dashboard("Demo User")
-if "selected_tab" not in st.session_state:
-    st.session_state.selected_tab = "Homepage"
+
 
