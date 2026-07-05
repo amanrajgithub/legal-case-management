@@ -40,7 +40,6 @@ with col4:
         st.session_state.selected_tab = "Profile"
 
 # --- Render selected section ---
-st.title("Legal Case Management System")
 
 if st.session_state.selected_tab == "Homepage":
     st.write("Welcome to MY Bharat Legal CASE Mangement System")
