@@ -43,7 +43,7 @@ with col4:
 st.title("Legal Case Management System")
 
 if st.session_state.selected_tab == "Homepage":
-    st.write("Welcome to Homepage")
+    st.write("Welcome to MY Bharat Legal CASE Mangement System")
 
 elif st.session_state.selected_tab == "Dashboard":
     show_dashboard("Demo User")
@@ -55,9 +55,6 @@ elif st.session_state.selected_tab == "Case Register":
 elif st.session_state.selected_tab == "Profile":
     st.write("Profile section here")
 
-
-st.set_page_config(page_title="Legal Case Management", layout="wide")
-st.title("Legal Case Management System")
 if "selected_tab" not in st.session_state:
     st.session_state.selected_tab = "Homepage"
 
