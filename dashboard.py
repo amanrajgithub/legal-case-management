@@ -43,25 +43,40 @@ def load_records(_worksheet, cache_key: str) -> pd.DataFrame:
     """
     return pd.DataFrame(_worksheet.get_all_records())
 
-@st.dialog("📎 Attachment")
-def show_attachment_popup(url: str, case_number: str):
+@st.dialog("📎 Attachments")
+def show_attachment_popup(raw_value: str, case_number: str):
     st.write(f"**Case:** {case_number}")
-    if not url:
-        st.info("No attachment on file for this case.")
+
+    if not raw_value or not str(raw_value).strip():
+        st.info("No attachments on file for this case.")
         return
 
-    lower = url.lower()
-    if lower.endswith((".png", ".jpg", ".jpeg", ".gif")):
-        st.image(url, use_container_width=True)
-    elif lower.endswith(".pdf") or "drive.google.com" in lower:
-        embed_url = url
-        if "drive.google.com" in lower and "/preview" not in lower:
-            embed_url = url.split("?")[0].replace("/view", "/preview")
-        st.components.v1.iframe(embed_url, height=600)
-    else:
-        st.write("Preview not available for this file type.")
+    # Split on newlines, commas, or pipes — whichever the sheet actually uses
+    import re
+    links = [l.strip() for l in re.split(r"[\n,|]+", str(raw_value)) if l.strip()]
 
-    st.link_button("🔗 Open in new tab", url)
+    if not links:
+        st.info("No attachments on file for this case.")
+        return
+
+    for i, url in enumerate(links, start=1):
+        st.markdown(f"**Attachment {i}**")
+        lower = url.lower()
+
+        if lower.endswith((".png", ".jpg", ".jpeg", ".gif", ".webp")):
+            st.image(url, use_container_width=True)
+
+        elif lower.endswith(".pdf") or "drive.google.com" in lower:
+            embed_url = url.split("?")[0]
+            if "drive.google.com" in lower and "/preview" not in lower:
+                embed_url = embed_url.replace("/view", "/preview")
+            st.components.v1.iframe(embed_url, height=500)
+
+        else:
+            st.write("Preview not available for this file type.")
+
+        st.link_button("🔗 Open in new tab", url, key=f"open_link_{case_number}_{i}")
+        st.divider()
 
 
 def bump_cache():
