@@ -43,6 +43,27 @@ def load_records(_worksheet, cache_key: str) -> pd.DataFrame:
     """
     return pd.DataFrame(_worksheet.get_all_records())
 
+@st.dialog("📎 Attachment")
+def show_attachment_popup(url: str, case_number: str):
+    st.write(f"**Case:** {case_number}")
+    if not url:
+        st.info("No attachment on file for this case.")
+        return
+
+    lower = url.lower()
+    if lower.endswith((".png", ".jpg", ".jpeg", ".gif")):
+        st.image(url, use_container_width=True)
+    elif lower.endswith(".pdf") or "drive.google.com" in lower:
+        # Google Drive links need the /preview form to embed
+        embed_url = url
+        if "drive.google.com" in lower and "/preview" not in lower:
+            embed_url = url.split("?")[0].rstrip("/") + "/preview"
+        st.components.v1.iframe(embed_url, height=600)
+    else:
+        st.write("Preview not available for this file type.")
+
+    st.link_button("🔗 Open in new tab", url)
+
 
 def bump_cache():
     """Call after any write so the next read reflects fresh data."""
@@ -320,13 +341,17 @@ def show_case_register(sheet, audit_sheet, user_email):
         )
         st.write(header)
 
-        colA, colB = st.columns([1, 1])
+        colA, colB, colC = st.columns([1, 1, 1])
         with colA:
-            if st.button(f"🔍 Open", key=f"open_{idx}"):
+            if st.button("🔍 Open", key=f"open_{idx}"):
                 st.session_state.open_case_idx = idx if st.session_state.open_case_idx != idx else None
         with colB:
-            if st.button(f"🗑️ Delete", key=f"delete_btn_{idx}"):
+            if st.button("🗑️ Delete", key=f"delete_btn_{idx}"):
                 st.session_state[f"confirm_delete_{idx}"] = True
+        with colC:
+            attachment_url = row.get("Attachment", "")
+            if st.button("📎 Attachment", key=f"attach_{idx}"):
+                show_attachment_popup(attachment_url, case_number)
 
         # Delete confirmation persists across reruns via session_state
         if st.session_state.get(f"confirm_delete_{idx}"):
