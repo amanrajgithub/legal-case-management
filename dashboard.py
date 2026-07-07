@@ -54,10 +54,9 @@ def show_attachment_popup(url: str, case_number: str):
     if lower.endswith((".png", ".jpg", ".jpeg", ".gif")):
         st.image(url, use_container_width=True)
     elif lower.endswith(".pdf") or "drive.google.com" in lower:
-        # Google Drive links need the /preview form to embed
         embed_url = url
         if "drive.google.com" in lower and "/preview" not in lower:
-            embed_url = url.split("?")[0].rstrip("/") + "/preview"
+            embed_url = url.split("?")[0].replace("/view", "/preview")
         st.components.v1.iframe(embed_url, height=600)
     else:
         st.write("Preview not available for this file type.")
