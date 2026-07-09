@@ -78,6 +78,24 @@ def show_attachment_popup(raw_value: str, case_number: str):
         st.link_button("🔗 Open in new tab", url, key=f"open_link_{case_number}_{i}")
         st.divider()
 
+@st.dialog("📄 Case Details")
+def show_case_details_popup(row):
+    case_number = row.get("Case Number", "—")
+    st.subheader(row.get("Case Title", case_number))
+
+    for col in row.index:
+        if col in ("_hearing_dt", "Attachment"):
+            continue
+        st.write(f"**{col}:** {row[col]}")
+
+    st.markdown("---")
+
+    attachment_val = row.get("Attachment", "")
+    if attachment_val and str(attachment_val).strip():
+        if st.button("📎 View Attachment(s)", key=f"home_attach_{case_number}"):
+            show_attachment_popup(attachment_val, case_number)
+    else:
+        st.caption("No attachments on file for this case.")
 
 def bump_cache():
     """Call after any write so the next read reflects fresh data."""
