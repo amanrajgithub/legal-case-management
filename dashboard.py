@@ -332,7 +332,7 @@ def show_case_register(sheet, audit_sheet, user_email):
         st.metric("Pending", int(safe_contains(df["Status"], "Pending").sum()) if "Status" in df.columns else 0)
 
     st.subheader("📋 Registered Cases")
-
+    search_query = st.text_input("Search", placeholder="🔍 Search cases...", label_visibility="collapsed")
     st.markdown("### 🔎 Filters")
     filter_cols = st.columns(4)
     filter_specs = [
