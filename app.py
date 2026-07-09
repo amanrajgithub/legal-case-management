@@ -57,18 +57,18 @@ TABS = {
     "Profile": "👤 Profile",
 }
 
-header_left, header_center, header_right = st.columns([1, 3, 2])
+header_left, header_center, header_right = st.columns([1, 3, 1])
 with header_center:
     st.markdown(
         """
-        <h2 style="text-align:center; color:white; margin:0;">
+        <h2 style="text-align:center; color:black; margin:0;">
             ⚖️ MY Bharat — Legal Case Management System
         </h2>
         """,
         unsafe_allow_html=True,
     )
 with header_right:
-    st.image("https://yt3.googleusercontent.com/U3-81cCD07pfeBBoJjxVls1NVMi4bn3SycKxwtcWWzxSUVzsJNxmb6_4XnK2eUikioD65oTlvQ=s900-c-k-c0x00ffffff-no-rj", width=120)  # replace with your logo file/path or URL
+    st.image("https://yt3.googleusercontent.com/U3-81cCD07pfeBBoJjxVls1NVMi4bn3SycKxwtcWWzxSUVzsJNxmb6_4XnK2eUikioD65oTlvQ=s900-c-k-c0x00ffffff-no-rj", width=150)  # replace with your logo file/path or URL
     
 st.components.v1.html(
         """
