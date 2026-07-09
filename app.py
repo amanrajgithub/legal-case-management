@@ -95,6 +95,7 @@ st.components.v1.html(
         """,
         height=40,
     )
+current_user = st.session_state.get("user_name", "Demo User")
 initials = "".join([w[0].upper() for w in current_user.split()][:2]) if current_user else "?"
 
 st.markdown('<div class="nav-ribbon">', unsafe_allow_html=True)
@@ -119,7 +120,7 @@ st.divider()
 # ---------------------------------------------------------------------------
 # Render selected section
 # ---------------------------------------------------------------------------
-current_user = st.session_state.get("user_name", "Demo User")
+
 
 # --- Homepage tab content (replaces the current "Homepage" branch in app.py) ---
 
