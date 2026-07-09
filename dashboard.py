@@ -361,10 +361,42 @@ def show_case_register(sheet, audit_sheet, user_email):
 
     st.subheader("📋 Registered Cases")
 
+    st.markdown("### 🔎 Filters")
+    filter_cols = st.columns(4)
+    filter_specs = [
+        ("State", "State"),
+        ("Court", "Court"),
+        ("Status", "Status"),
+        ("Case Head", "Case Head"),
+    ]
+
+    selections = {}
+    for col, (field, label) in zip(filter_cols, filter_specs):
+        with col:
+            if field in df.columns:
+                options = sorted(df[field].dropna().unique().tolist())
+                selections[field] = st.multiselect(
+                    label, options=options, key=f"register_filter_{field}"
+                )
+            else:
+                selections[field] = []
+
+    if st.button("🧹 Clear Filters", key="register_clear_filters"):
+        for field, _ in filter_specs:
+            st.session_state.pop(f"register_filter_{field}", None)
+        st.rerun()
+
+    filtered_df = df.copy()
+    for field, values in selections.items():
+        if values and field in filtered_df.columns:
+            filtered_df = filtered_df[filtered_df[field].isin(values)]
+
+    st.caption(f"Showing {len(filtered_df)} of {len(df)} cases")
+
     if "open_case_idx" not in st.session_state:
         st.session_state.open_case_idx = None
 
-    for idx, row in df.iterrows():
+    for idx, row in filtered_df.iterrows():
         case_number = row.get("Case Number", f"row-{idx}")
         header = (
             f"**{row.get('Case Title', '—')}** | {case_number} | "
