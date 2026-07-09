@@ -57,7 +57,19 @@ TABS = {
     "Profile": "👤 Profile",
 }
 
-st.markdown("## ⚖️ MY Bharat — Legal Case Management System")
+header_left, header_center, header_right = st.columns([1, 3, 1])
+with header_center:
+    st.markdown(
+        """
+        <h2 style="text-align:center; color:white; margin:0;">
+            ⚖️ MY Bharat — Legal Case Management System
+        </h2>
+        """,
+        unsafe_allow_html=True,
+    )
+with header_right:
+    st.image("https://cdn-prod.mybharats.in/mybharat/assets/img/yuva_landing/mybharatlogo_opt_2x.png", width=60)  # replace with your logo file/path or URL
+    
 st.components.v1.html(
         """
         <div style="text-align:center; font-family:sans-serif; margin-top:-10px; margin-bottom:20px;">
