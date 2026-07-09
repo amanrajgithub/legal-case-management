@@ -68,7 +68,7 @@ with header_center:
         unsafe_allow_html=True,
     )
 with header_right:
-    st.image("https://yt3.googleusercontent.com/U3-81cCD07pfeBBoJjxVls1NVMi4bn3SycKxwtcWWzxSUVzsJNxmb6_4XnK2eUikioD65oTlvQ=s900-c-k-c0x00ffffff-no-rj", width=150)  # replace with your logo file/path or URL
+    st.image("https://yt3.googleusercontent.com/U3-81cCD07pfeBBoJjxVls1NVMi4bn3SycKxwtcWWzxSUVzsJNxmb6_4XnK2eUikioD65oTlvQ=s900-c-k-c0x00ffffff-no-rj", width=120)  # replace with your logo file/path or URL
     
 st.components.v1.html(
         """
