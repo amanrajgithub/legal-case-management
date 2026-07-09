@@ -11,54 +11,18 @@ st.set_page_config(page_title="Legal Case Management", page_icon="⚖️", layou
 st.markdown(
     """
     <style>
-        .stApp {
-            background-color: #008080;
-        }
         .block-container {padding-top: 1.5rem;}
-
-        /* Ribbon bar */
-        .nav-ribbon {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255,255,255,0.08);
-            border-radius: 14px;
-            padding: 10px 16px;
-            margin-bottom: 20px;
-        }
-
         div.stButton > button {
+            width: 100%;
             border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 0.5rem 0.9rem;
+            border: 1px solid rgba(49, 51, 63, 0.15);
+            padding: 0.5rem 0.75rem;
             font-weight: 600;
             transition: all 0.15s ease-in-out;
-            background-color: rgba(255,255,255,0.9);
         }
         div.stButton > button:hover {
-            border-color: #ffffff;
-            color: #008080;
-        }
-
-        /* Round profile/avatar button */
-        div[data-testid="column"]:has(button[kind="secondary"][aria-label="profile_avatar_btn"]) button,
-        .avatar-btn button {
-            border-radius: 50% !important;
-            width: 46px !important;
-            height: 46px !important;
-            padding: 0 !important;
-            font-weight: 700 !important;
-            font-size: 18px !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffffff !important;
-            color: #008080 !important;
-            border: 2px solid #ffffff !important;
-        }
-
-        .home-hero h1, .home-hero p {
-            color: #ffffff !important;
+            border-color: #2E86C1;
+            color: #2E86C1;
         }
     </style>
     """,
