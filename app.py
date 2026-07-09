@@ -68,7 +68,7 @@ with header_center:
         unsafe_allow_html=True,
     )
 with header_right:
-    st.image("https://cdn-prod.mybharats.in/mybharat/assets/img/yuva_landing/mybharatlogo_opt_2x.png", width=60)  # replace with your logo file/path or URL
+    st.image("https://yt3.googleusercontent.com/U3-81cCD07pfeBBoJjxVls1NVMi4bn3SycKxwtcWWzxSUVzsJNxmb6_4XnK2eUikioD65oTlvQ=s900-c-k-c0x00ffffff-no-rj", width=60)  # replace with your logo file/path or URL
     
 st.components.v1.html(
         """
