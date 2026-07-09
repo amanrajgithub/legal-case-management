@@ -84,12 +84,12 @@ if st.session_state.selected_tab == "Homepage":
     total_cases = len(df)
     upcoming_count = int(df["_hearing_dt"].between(now, now + pd.Timedelta(days=14)).sum())
     if "_hearing_dt" in df.columns:
-    overdue_mask = df["_hearing_dt"] < now
+        overdue_mask = df["_hearing_dt"] < now
     if "Status" in df.columns:
         overdue_mask &= ~safe_contains(df["Status"], "Disposed")
-    overdue_count = int(overdue_mask.sum())
+        overdue_count = int(overdue_mask.sum())
     else:
-    overdue_count = 0
+        overdue_count = 0
 
     st.markdown(
         """
