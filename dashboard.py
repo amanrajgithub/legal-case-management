@@ -467,30 +467,30 @@ def show_case_register(sheet, audit_sheet, user_email):
                             st.rerun()
 
         st.divider()
-        # ------------------------------------------------------------------
-        # Add new case
-        # ------------------------------------------------------------------
-        st.markdown("### ➕ Add a New Case")
-        with st.form("new_case", clear_on_submit=True):
-            c1, c2 = st.columns(2)
-            with c1:
-                new_title = st.text_input("Case Title")
-                new_number = st.text_input("Case Number")
-                new_court = st.selectbox("Court", COURT_OPTIONS)
-            with c2:
-                new_state = st.text_input("State")
-                new_head = st.selectbox("Case Head", CASE_HEAD_OPTIONS)
-                new_status = st.selectbox("Status", STATUS_OPTIONS)
-    
-            submitted = st.form_submit_button("✅ Add Case")
-    
-            if submitted:
-                if not new_number.strip():
-                    st.error("❌ Case Number cannot be empty.")
-                elif "Case Number" in df.columns and new_number in df["Case Number"].values:
-                    st.error("❌ A case with this Case Number already exists.")
-                else:
-                    sheet.append_row([new_title, new_number, new_court, new_state, new_head, new_status])
-                    bump_cache()
-                    st.success("Case added successfully!")
-                    st.rerun()
+    # ------------------------------------------------------------------
+    # Add new case
+    # ------------------------------------------------------------------
+    st.markdown("### ➕ Add a New Case")
+    with st.form("new_case", clear_on_submit=True):
+        c1, c2 = st.columns(2)
+        with c1:
+            new_title = st.text_input("Case Title")
+            new_number = st.text_input("Case Number")
+            new_court = st.selectbox("Court", COURT_OPTIONS)
+        with c2:
+            new_state = st.text_input("State")
+            new_head = st.selectbox("Case Head", CASE_HEAD_OPTIONS)
+            new_status = st.selectbox("Status", STATUS_OPTIONS)
+
+        submitted = st.form_submit_button("✅ Add Case")
+
+        if submitted:
+            if not new_number.strip():
+                st.error("❌ Case Number cannot be empty.")
+            elif "Case Number" in df.columns and new_number in df["Case Number"].values:
+                st.error("❌ A case with this Case Number already exists.")
+            else:
+                sheet.append_row([new_title, new_number, new_court, new_state, new_head, new_status])
+                bump_cache()
+                st.success("Case added successfully!")
+                st.rerun()
