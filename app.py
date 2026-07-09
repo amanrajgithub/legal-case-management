@@ -131,6 +131,44 @@ if st.session_state.selected_tab == "Homepage":
         """,
         unsafe_allow_html=True,
     )
+    
+    st.components.v1.html(
+        """
+        <div style="text-align:center; font-family:sans-serif; margin-top:-10px; margin-bottom:20px;">
+            <span style="color:#999;">-------</span>
+            <span id="ist-clock" style="color:#5f6368; font-size:14px; font-weight:500;"></span>
+            <span style="color:#999;">-------</span>
+        </div>
+        <script>
+            function updateClock() {
+                const now = new Date();
+                // Convert to IST (UTC+5:30)
+                const istOffset = 5.5 * 60 * 60000;
+                const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+                const ist = new Date(utc + istOffset);
+    
+                const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+                const months = ["January","February","March","April","May","June",
+                                "July","August","September","October","November","December"];
+    
+                const dateStr = ist.getDate() + " " + months[ist.getMonth()] + " " + ist.getFullYear();
+    
+                let hours = ist.getHours();
+                const ampm = hours >= 12 ? "PM" : "AM";
+                hours = hours % 12;
+                hours = hours ? hours : 12;
+                const minutes = String(ist.getMinutes()).padStart(2, "0");
+                const seconds = String(ist.getSeconds()).padStart(2, "0");
+    
+                document.getElementById("ist-clock").innerText =
+                    dateStr + "  |  " + hours + ":" + minutes + ":" + seconds + " " + ampm + " IST";
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        </script>
+        """,
+        height=40,
+    )
 
     search_query = st.text_input("Search", placeholder="🔍 Search cases...", label_visibility="collapsed")
 
