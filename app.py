@@ -95,11 +95,25 @@ st.components.v1.html(
         """,
         height=40,
     )
-nav_cols = st.columns(len(TABS))
-for col, (key, label) in zip(nav_cols, TABS.items()):
-    with col:
-        if st.button(label, key=f"nav_{key}"):
-            st.session_state.selected_tab = key
+initials = "".join([w[0].upper() for w in current_user.split()][:2]) if current_user else "?"
+
+st.markdown('<div class="nav-ribbon">', unsafe_allow_html=True)
+left, right = st.columns([5, 1])
+
+with left:
+    nav_cols = st.columns(3)
+    for col, key in zip(nav_cols, ["Homepage", "Dashboard", "Case Register"]):
+        with col:
+            if st.button(TABS[key], key=f"nav_{key}"):
+                st.session_state.selected_tab = key
+
+with right:
+    st.markdown('<div class="avatar-btn">', unsafe_allow_html=True)
+    if st.button(initials, key="nav_Profile", help="Profile"):
+        st.session_state.selected_tab = "Profile"
+    st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
 st.divider()
 
 # ---------------------------------------------------------------------------
