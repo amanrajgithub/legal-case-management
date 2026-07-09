@@ -1,5 +1,7 @@
 import streamlit as st
+import pandas as pd
 from dashboard import show_dashboard, show_case_register, get_gspread_client, load_records, safe_contains
+from datetime import datetime
 
 st.set_page_config(page_title="Legal Case Management", page_icon="⚖️", layout="wide")
 
