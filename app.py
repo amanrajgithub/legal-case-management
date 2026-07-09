@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from dashboard import show_dashboard, show_case_register, get_gspread_client, load_records, safe_contains
+from dashboard import show_dashboard, show_case_register, get_gspread_client, load_records, safe_contains, show_case_details_popup
 from datetime import datetime
 
 st.set_page_config(page_title="Legal Case Management", page_icon="⚖️", layout="wide")
@@ -231,13 +231,13 @@ if st.session_state.selected_tab == "Homepage":
         if view.empty:
             st.info("No matching cases.")
             return
-        for _, row in view.iterrows():
+        for idx, row in view.iterrows():
             status = row.get("Status", "")
             court = row.get("Court", "")
             due = row.get("_hearing_dt")
             due_str = due.strftime("%-m/%-d/%Y") if pd.notna(due) else "—"
             advocate = row.get("Advocate", "—")
-
+    
             st.markdown(
                 f"""
                 <div class="case-card">
@@ -253,6 +253,9 @@ if st.session_state.selected_tab == "Homepage":
                 """,
                 unsafe_allow_html=True,
             )
+            if st.button("View details →", key=f"home_card_{idx}"):
+                show_case_details_popup(row)
+            st.write("")
 
     with tab_upcoming:
         upcoming_view = apply_home_filters(df[df["_hearing_dt"].between(now, now + pd.Timedelta(days=14))])
